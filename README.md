@@ -13,96 +13,16 @@ Passo 2: Crie o Arquivo de Configurações do Sistema
 Agora, vamos criar um arquivo de configurações, que vai guardar todos os dados que vão ser usados em todos os outros scripts PHP do sistema.
 
 Crie um arquivo chamado config.php, na pasta principal, e coloque o código a seguir:
-
-<?php
-
-	/** O nome do banco de dados */
-	define('DB_NAME', 'nome_do_banco');
-
-	/** suário do banco de dados MySQL */
-	define('DB_USER', 'nome_do_usuário');
-
-	/** Senha do banco de dados MySQL */
-	define('DB_PASSWORD', 'senha_do_banco');
-	/** Nome do host **/
-	define('DB_HOST', 'caminho_do_host');
-
-	/** Caminho absoluto para a pasta do sistema **/
-	if ( !defined('ABSPATH') )
-		define('ABSPATH', dirname(__FILE__) . '/');
-	
-	/** Caminho do servidor para o sistema **/
-	if ( !defined('BASEURL') )
-		define('BASEURL', '/crud/');
-	
-	/** Caminho do arquivo do banco de dados **/
-	if ( !defined('DBAPI') )
-		define('DBAPI', ABSPATH . 'inc/database.php');
-
-	/** Seta o cabeçalho e rodapé
-	define('HEADER_TEMPLATE', ABSPATH . 'inc/header.php');
-	('FOOTER_TEMPLATE', ABSPATH . 'inc/footer.php');
-  ?>
+<img width="485" height="529" alt="image" src="https://github.com/user-attachments/assets/dd54d941-fb88-4cc1-bf95-5bab693253f1" />
 
 Passo 3: Implemente o script de Conexão com o Banco de Dados
 
 Vamos criar um arquivo que vai ter todas as funções de acesso ao banco de dados. Assim, podemos reaproveitar código nas outras partes do CRUD.
 
 Crie um arquivo chamado database.php, na pasta inc do seu projeto, e coloque o código a seguir:
+<img width="577" height="359" alt="image" src="https://github.com/user-attachments/assets/f126226e-6309-4351-8769-81f146dea591" />
 
-<?php
-        mysqli_report(MYSQLI_REPORT_STRICT);
-        function open_database() {
-            try {
-                $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-                return $conn;
-            } catch (Exception $e) {
-                echo $e->getMessage();
-                return null;
-            }
-        }
 
-        function close_database($conn) {
-             try {
-                  mysqli_close($conn);
-             } catch (Exception $e) {
-                  echo $e->getMessage();
-             }
-        }
-
-         function find( $table = null, $id = null ) {
-  
-               $database = open_database();
-               $found = null;
-	
-              try {
-                   if ($id) {
-                        $sql = "SELECT * FROM " . $table . " WHERE id = " . $id;
-                        $result = $database->query($sql);
-	    
-                        if ($result->num_rows > 0) {
-                             $found = $result->fetch_assoc();
-                        }
-	    
-                     } else
-                             {
-	       $sql = "SELECT * FROM " . $table;
-                                    $result = $database->query($sql);
-	    
-                                    if ($result->num_rows > 0) {
-                                         $found = $result->fetch_all(MYSQLI_ASSOC);       
-                                    }
-	  }
-                        } catch (Exception $e) {
-	  $_SESSION['message'] = $e->GetMessage();
-	  $_SESSION['type'] = 'danger';
-                     }
-             
-                     close_database($database);
-                     return $found;
-           }
-
-    ?>
 
 <?php
         /**
